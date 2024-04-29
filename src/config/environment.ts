@@ -5,6 +5,8 @@ const requiredEnvVars = [
   // Server
   'PORT',
   'NODE_ENV',
+  // API
+  'API_VERSION',
   // Database
   // dev
   'DEV_DB_URI',
@@ -17,6 +19,9 @@ requiredEnvVars.forEach((envVar) => {
 })
 
 const Config = {
+  api: {
+    version: process.env.API_VERSION,
+  },
   server: {
     port: process.env.PORT,
     env: process.env.NODE_ENV,
