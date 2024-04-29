@@ -6,5 +6,9 @@ export const clientErrorHandler = (
   res: Response,
   next: NextFunction
 ) => {
+  console.table(req.headers)
+  if (res.getHeader('X-Client-Type') === 'web') {
+    res.render('pages/404')
+  }
   throw new NotFoundError('Page not found')
 }

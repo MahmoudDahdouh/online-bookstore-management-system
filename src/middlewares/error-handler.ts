@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from 'express'
 import CustomError from '../utils/error/CustomError'
-import asyncHandler from '../utils/async-handler'
 
 export default function (
   error: Error,
@@ -9,6 +8,9 @@ export default function (
   next: NextFunction
 ) {
   console.log(error)
+  if (res.getHeader('X-Client-Type') === 'web') {
+    res.render('pages/500', { message: error.message })
+  }
 
   if (error instanceof CustomError) {
     res.status(error.statusCode).json({
