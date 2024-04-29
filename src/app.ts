@@ -12,6 +12,9 @@ app.get('/', (req, res) => {
   res.send('Hello, TypeScript with Express!')
 })
 
+// client error handler
+app.use(clientErrorHandler)
+
 // Error handler
 app.use(ErrorHandler)
 
