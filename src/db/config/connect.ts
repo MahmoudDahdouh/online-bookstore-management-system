@@ -1,9 +1,15 @@
 import { Sequelize } from 'sequelize'
 import Config from '../../config/environment'
 
-const sequelize = new Sequelize(Config.database.dev.uri)
+const sequelize = new Sequelize(Config.database.dev.uri, {
+  define: {
+    underscored: true,
+    createdAt: 'created_at',
+    updatedAt: 'update_at',
+  },
+})
 
-export const checkConnection = async () => {
+export async function checkConnection() {
   console.log('Start database connection.')
   try {
     await sequelize.authenticate()
