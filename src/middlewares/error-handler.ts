@@ -7,11 +7,6 @@ export default function (
   res: Response,
   next: NextFunction
 ) {
-  console.log(error)
-  if (res.getHeader('X-Client-Type') === 'web') {
-    res.render('pages/500', { message: error.message })
-  }
-
   if (error instanceof CustomError) {
     res.status(error.statusCode).json({
       success: false,
