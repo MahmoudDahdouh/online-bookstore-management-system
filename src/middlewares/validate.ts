@@ -8,7 +8,6 @@ export function validate(schema: Schema<any>) {
     async (req: Request, res: Response, next: NextFunction) => {
       try {
         console.log('validation test')
-        console.log({ ...req.body })
 
         const data = await schema.validate({
           body: req.body,
