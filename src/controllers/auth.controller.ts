@@ -5,7 +5,14 @@ import { BadRequestError } from '../utils/error/BadRequestError'
 import { ConflictError } from '../utils/error/ConflictError'
 import { generateToken } from '../utils/jwt'
 import StatusResponse from '../utils/StatusResponse'
+import { Op } from 'sequelize'
 
+/**
+ * login
+ * login using email and password
+ * POST
+ * /auth/login
+ */
 export async function login(req: Request, res: Response) {
   const { email, password } = req.body
 
@@ -36,14 +43,60 @@ export async function login(req: Request, res: Response) {
   )
 
   // return the user data without the password
+  const { password_hash, ...restUserData } = user.dataValues
   return res.json({
     ...StatusResponse(),
-    user,
+    restUserData,
     access_token: token,
   })
 }
-export function register(req: Request, res: Response) {
-  res.send('register')
+
+/**
+ * register
+ * create new user
+ * POST
+ * /auth/register
+ */
+export async function register(req: Request, res: Response) {
+  const { username, email, password } = req.body
+
+  // check if the email or username is exist in the database
+
+  const user = await User.findOne({
+    where: {
+      [Op.or]: [{ username }, { email }],
+    },
+  })
+  console.log({ user })
+
+  if (user && user.email === email) {
+    throw new ConflictError('Email already exist')
+  }
+
+  if (user && user.username === username) {
+    throw new ConflictError('Username already exist')
+  }
+
+  // register new user
+  const hashedPassword = await bcrypt.hash(password, 10)
+  const newUser = await User.create({
+    username,
+    email,
+    password_hash: hashedPassword,
+  })
+  // generate new token
+  const token = generateToken(
+    { id: newUser.id, role: newUser.user_role },
+    {
+      expiresIn: '30d',
+    }
+  )
+  const { password_hash, ...restUserData } = newUser.dataValues
+  res.json({
+    ...StatusResponse(201, 'New user created'),
+    user: restUserData,
+    access_token: token,
+  })
 }
 export function logout(req: Request, res: Response) {
   res.send('logout')
