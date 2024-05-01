@@ -1,3 +1,4 @@
+import { paginationSchema } from './../../validate/global.schema'
 import { Router } from 'express'
 import {
   createBook,
@@ -13,7 +14,7 @@ import { idParamSchema } from '../../validate/global.schema'
 const router = asyncify(Router())
 
 router.post('/', createBook)
-router.get('/', getAllBooks)
+router.get('/', validate(paginationSchema), getAllBooks)
 router.get('/:id', validate(idParamSchema), getBookById)
 router.patch('/:id', updateBook)
 router.delete('/', deleteBook)

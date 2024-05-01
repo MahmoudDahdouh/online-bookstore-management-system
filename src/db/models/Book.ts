@@ -45,7 +45,6 @@ Book.init(
     price: {
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false,
-      unique: true,
     },
     page_count: {
       type: DataTypes.INTEGER.UNSIGNED,
