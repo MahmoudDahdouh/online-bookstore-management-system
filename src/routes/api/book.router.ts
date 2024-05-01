@@ -7,12 +7,14 @@ import {
   updateBook,
 } from '../../controllers/book.controller'
 import asyncify from 'express-asyncify'
+import { validate } from '../../middlewares/validate'
+import { idParamSchema } from '../../validate/global.schema'
 
 const router = asyncify(Router())
 
 router.post('/', createBook)
 router.get('/', getAllBooks)
-router.get('/:book_id', getBookById)
+router.get('/:id', validate(idParamSchema), getBookById)
 router.patch('/:id', updateBook)
 router.delete('/', deleteBook)
 
