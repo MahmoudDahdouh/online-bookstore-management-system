@@ -1,4 +1,4 @@
-import { paginationSchema } from './../../validate/global.schema'
+import { paginationSchema, idParamSchema } from './../../validate/global.schema'
 import { Router } from 'express'
 import {
   createBook,
@@ -9,11 +9,11 @@ import {
 } from '../../controllers/book.controller'
 import asyncify from 'express-asyncify'
 import { validate } from '../../middlewares/validate'
-import { idParamSchema } from '../../validate/global.schema'
+import { createBookSchema } from '../../validate/book.schema'
 
 const router = asyncify(Router())
 
-router.post('/', createBook)
+router.post('/', validate(createBookSchema), createBook)
 router.get('/', validate(paginationSchema), getAllBooks)
 router.get('/:id', validate(idParamSchema), getBookById)
 router.patch('/:id', updateBook)

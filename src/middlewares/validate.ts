@@ -7,15 +7,11 @@ export function validate(schema: Schema<any>) {
   return asyncHandler(
     async (req: Request, res: Response, next: NextFunction) => {
       try {
-        console.log('validation test')
-
         const data = await schema.validate({
           body: req.body,
           query: req.query,
           params: req.params,
         })
-
-        console.log({ ...data })
 
         // replace with the validated data
         req.body = { ...data.body }

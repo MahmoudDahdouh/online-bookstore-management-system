@@ -3,8 +3,40 @@ import Book from '../db/models/Book'
 import { NotFoundError } from '../utils/error/NotFoundError'
 import StatusResponse from '../utils/StatusResponse'
 
+/**
+ * create a new book
+ * POST
+ * /book
+ * @body title, description, author,
+ * genre, language, isbn, price,
+ * page_count, published_date
+ */
 export async function createBook(req: Request, res: Response) {
-  res.send('create book')
+  const {
+    title,
+    description,
+    author,
+    genre,
+    language,
+    isbn,
+    price,
+    page_count,
+    published_date,
+  } = req.body
+
+  const book = await Book.create({
+    title,
+    description,
+    author,
+    genre,
+    language,
+    isbn,
+    price,
+    page_count,
+    published_date,
+  })
+
+  res.send({ ...StatusResponse(201), book })
 }
 
 /**
