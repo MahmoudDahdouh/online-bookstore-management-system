@@ -12,6 +12,7 @@ export class Book extends Model {
   declare price: number
   declare page_count: number
   declare published_date: number
+  declare is_deleted: boolean
 }
 
 Book.init(
@@ -47,12 +48,16 @@ Book.init(
       unique: true,
     },
     page_count: {
-      type: DataTypes.NUMBER,
+      type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false,
     },
     published_date: {
       type: DataTypes.DATE,
       allowNull: false,
+    },
+    is_deleted: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
     },
   },
   {
