@@ -1,13 +1,13 @@
 import { Router } from 'express'
 import { login, logout, register } from '../../controllers/auth.controller'
-import asyncHandler from '../../utils/async-handler'
 import { loginSchema, registerSchema } from '../../validate/auth.schema'
 import { validate } from '../../middlewares/validate'
+import asyncify from 'express-asyncify'
 
-const router = Router()
+const router = asyncify(Router())
 
-router.post('/login', validate(loginSchema), asyncHandler(login))
-router.post('/register', validate(registerSchema), asyncHandler(register))
-router.get('/logout', asyncHandler(logout))
+router.post('/login', validate(loginSchema), login)
+router.post('/register', validate(registerSchema), register)
+router.get('/logout', logout)
 
 export default router

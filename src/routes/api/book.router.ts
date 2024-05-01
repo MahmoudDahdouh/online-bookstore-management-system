@@ -1,5 +1,4 @@
 import { Router } from 'express'
-import asyncHandler from '../../utils/async-handler'
 import {
   createBook,
   deleteBook,
@@ -7,12 +6,13 @@ import {
   getBookById,
   updateBook,
 } from '../../controllers/book.controller'
+import asyncify from 'express-asyncify'
 
-const router = Router()
+const router = asyncify(Router())
 
 router.post('/', createBook)
 router.get('/', getAllBooks)
-router.get('/:id', getBookById)
+router.get('/:book_id', getBookById)
 router.patch('/:id', updateBook)
 router.delete('/', deleteBook)
 
