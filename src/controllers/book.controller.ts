@@ -72,7 +72,7 @@ export async function getAllBooks(req: Request, res: Response) {
 /**
  * get book by id
  * GET
- * /book
+ * /book/:id
  * @param id
  */
 export async function getBookById(req: Request, res: Response) {
@@ -85,8 +85,46 @@ export async function getBookById(req: Request, res: Response) {
   res.json({ ...StatusResponse, book })
 }
 
+/**
+ * update book
+ * PATCH
+ * /book/:id
+ * @param id
+ * @body title, description, author,
+ * genre, language, isbn, price,
+ * page_count, published_date
+ */
 export async function updateBook(req: Request, res: Response) {
-  res.send(`update book number ${req.params.id}`)
+  const id = req.params.id
+  const {
+    title,
+    description,
+    author,
+    genre,
+    language,
+    isbn,
+    price,
+    page_count,
+    published_date,
+  } = req.body
+  const book = await Book.findOne({ where: { id } })
+  if (!book) {
+    throw new NotFoundError('Book is not found')
+  }
+
+  await book.update({
+    title,
+    description,
+    author,
+    genre,
+    language,
+    isbn,
+    price,
+    page_count,
+    published_date,
+  })
+
+  res.json({ ...StatusResponse(), book })
 }
 export async function deleteBook(req: Request, res: Response) {
   res.send(`delete book number ${req.body.book_id}`)
