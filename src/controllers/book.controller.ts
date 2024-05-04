@@ -58,7 +58,8 @@ export async function createBook(req: Request, res: Response) {
 export async function getAllBooks(req: Request, res: Response) {
   const page = Number(req.query.page)
   const page_size = Number(req.query.page_size)
-  const search_query = req.query.search_query
+
+  const { search_query, sort, order_by } = req.query
 
   const { rows: books, count } = await Book.findAndCountAll({
     limit: page_size,
@@ -72,7 +73,7 @@ export async function getAllBooks(req: Request, res: Response) {
         { description: { [Op.like]: '%' + search_query + '%' } },
       ],
     },
-    order: [['created_at', 'desc']],
+    order: [[String(sort), String(order_by)]],
   })
 
   res.json({

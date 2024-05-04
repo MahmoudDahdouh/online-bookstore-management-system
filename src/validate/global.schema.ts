@@ -46,6 +46,7 @@ export const paginationSchema = Yup.object({
       }),
   }),
 })
+
 export const searchAndFilterSchema = Yup.object({
   query: Yup.object({
     search_query: Yup.string()
@@ -53,5 +54,16 @@ export const searchAndFilterSchema = Yup.object({
       .nullable()
       .default('')
       .optional(),
+    sort: Yup.string().default('created_at').nullable().optional(),
+    order_by: Yup.string()
+      .default('desc')
+      .nullable()
+      .optional()
+      .transform((value) => {
+        if (!['desc', 'asc'].includes(value)) {
+          return 'desc'
+        }
+        return value
+      }),
   }),
 })
