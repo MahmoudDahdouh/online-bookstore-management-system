@@ -1,4 +1,8 @@
-import { paginationSchema, idParamSchema } from './../../validate/global.schema'
+import {
+  paginationSchema,
+  idParamSchema,
+  idBodySchema,
+} from './../../validate/global.schema'
 import { Router } from 'express'
 import {
   createBook,
@@ -21,6 +25,6 @@ router.patch(
   [validate(idParamSchema), validate(updateBookSchema)],
   updateBook
 )
-router.delete('/', deleteBook)
+router.delete('/', validate(idBodySchema), deleteBook)
 
 export default router

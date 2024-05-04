@@ -139,11 +139,11 @@ export async function updateBook(req: Request, res: Response) {
  * delete book
  * DELETE
  * /book
- * @body book_id
+ * @body id
  */
 export async function deleteBook(req: Request, res: Response) {
-  const book_id = req.body.book_id
-  const book = await Book.findOne({ where: { id: book_id } })
+  const id = req.body.id
+  const book = await Book.findOne({ where: { id } })
   if (!book || book.is_deleted === true) {
     throw new NotFoundError('Book is not found')
   }
@@ -152,7 +152,7 @@ export async function deleteBook(req: Request, res: Response) {
   await book.update(
     { is_deleted: true },
     {
-      where: book_id,
+      where: id,
     }
   )
 
