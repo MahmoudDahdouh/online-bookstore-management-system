@@ -113,7 +113,6 @@ export async function register(req: Request, res: Response) {
       [Op.or]: [{ username }, { email }],
     },
   })
-  console.log({ user })
 
   if (user && user.email === email) {
     throw new ConflictError('Email already exist')
@@ -140,6 +139,52 @@ export async function register(req: Request, res: Response) {
   const { password_hash, ...restUserData } = newUser.dataValues
   res.json({
     ...StatusResponse(201, 'New user created'),
+    user: restUserData,
+    access_token: token,
+  })
+}
+/**
+ * createAdmin
+ * create a new admin user
+ * POST
+ * /auth/register/admin
+ */
+export async function createAdmin(req: Request, res: Response) {
+  const { username, email, password } = req.body
+
+  // check if the email or username is exist in the database
+  const user = await User.findOne({
+    where: {
+      [Op.or]: [{ username }, { email }],
+    },
+  })
+
+  if (user && user.email === email) {
+    throw new ConflictError('Email already exist')
+  }
+
+  if (user && user.username === username) {
+    throw new ConflictError('Username already exist')
+  }
+
+  // register new user
+  const hashedPassword = await bcrypt.hash(password, 10)
+  const newUser = await User.create({
+    username,
+    email,
+    password_hash: hashedPassword,
+    user_role: ROLES.admin,
+  })
+  // generate new token
+  const token = generateToken(
+    { id: newUser.id, role: newUser.user_role },
+    {
+      expiresIn: '30d',
+    }
+  )
+  const { password_hash, ...restUserData } = newUser.dataValues
+  res.json({
+    ...StatusResponse(201, 'New admin created'),
     user: restUserData,
     access_token: token,
   })
