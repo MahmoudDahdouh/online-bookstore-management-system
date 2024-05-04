@@ -14,17 +14,27 @@ import {
 import asyncify from 'express-asyncify'
 import { validate } from '../../middlewares/validate'
 import { createBookSchema, updateBookSchema } from '../../validate/book.schema'
+import { requiredRole } from '../../middlewares/auth.middleware'
+import { ROLES } from '../../utils/roles'
 
 const router = asyncify(Router())
 
-router.post('/', validate(createBookSchema), createBook)
+router.post(
+  '/',
+  [validate(createBookSchema), requiredRole([ROLES.admin])],
+  createBook
+)
 router.get('/', validate(paginationSchema), getAllBooks)
 router.get('/:id', validate(idParamSchema), getBookById)
 router.patch(
   '/:id',
-  [validate(idParamSchema), validate(updateBookSchema)],
+  [validate(updateBookSchema), requiredRole([ROLES.admin])],
   updateBook
 )
-router.delete('/', validate(idBodySchema), deleteBook)
+router.delete(
+  '/',
+  [validate(idBodySchema), requiredRole([ROLES.admin])],
+  deleteBook
+)
 
 export default router
