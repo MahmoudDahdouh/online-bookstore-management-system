@@ -46,3 +46,12 @@ export const paginationSchema = Yup.object({
       }),
   }),
 })
+export const searchAndFilterSchema = Yup.object({
+  query: Yup.object({
+    search_query: Yup.string()
+      .label('search query')
+      .nullable()
+      .default('')
+      .optional(),
+  }),
+})

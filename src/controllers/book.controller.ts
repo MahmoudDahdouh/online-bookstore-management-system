@@ -3,6 +3,7 @@ import Book from '../db/models/Book'
 import { NotFoundError } from '../utils/error/NotFoundError'
 import StatusResponse from '../utils/StatusResponse'
 import { ConflictError } from '../utils/error/ConflictError'
+import { Op } from 'sequelize'
 
 /**
  * create a new book
@@ -41,7 +42,7 @@ export async function createBook(req: Request, res: Response) {
   })
   if (!isCreated) {
     console.log({ book })
-    throw new ConflictError('Book is already exist')
+    throw new ConflictError('Book is already exist, try new ISBN number')
   }
 
   res.send({ ...StatusResponse(201, 'new book created'), book })
@@ -57,12 +58,19 @@ export async function createBook(req: Request, res: Response) {
 export async function getAllBooks(req: Request, res: Response) {
   const page = Number(req.query.page)
   const page_size = Number(req.query.page_size)
+  const search_query = req.query.search_query
 
   const { rows: books, count } = await Book.findAndCountAll({
     limit: page_size,
     offset: (page - 1) * page_size,
     where: {
       is_deleted: false,
+      [Op.or]: [
+        { title: { [Op.like]: '%' + search_query + '%' } },
+        { author: { [Op.like]: '%' + search_query + '%' } },
+        { genre: { [Op.like]: '%' + search_query + '%' } },
+        { description: { [Op.like]: '%' + search_query + '%' } },
+      ],
     },
     order: [['created_at', 'desc']],
   })

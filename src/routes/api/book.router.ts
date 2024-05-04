@@ -2,6 +2,7 @@ import {
   paginationSchema,
   idParamSchema,
   idBodySchema,
+  searchAndFilterSchema,
 } from './../../validate/global.schema'
 import { Router } from 'express'
 import {
@@ -26,7 +27,11 @@ router.post(
   createBook
 )
 // get all books
-router.get('/', validate(paginationSchema), getAllBooks)
+router.get(
+  '/',
+  [validate(paginationSchema), validate(searchAndFilterSchema)],
+  getAllBooks
+)
 
 // get book by id
 router.get('/:id', validate(idParamSchema), getBookById)
