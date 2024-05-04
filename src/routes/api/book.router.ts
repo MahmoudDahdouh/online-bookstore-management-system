@@ -19,18 +19,26 @@ import { ROLES } from '../../utils/roles'
 
 const router = asyncify(Router())
 
+// create new book
 router.post(
   '/',
   [validate(createBookSchema), requiredRole([ROLES.admin])],
   createBook
 )
+// get all books
 router.get('/', validate(paginationSchema), getAllBooks)
+
+// get book by id
 router.get('/:id', validate(idParamSchema), getBookById)
+
+// update book
 router.patch(
   '/:id',
   [validate(updateBookSchema), requiredRole([ROLES.admin])],
   updateBook
 )
+
+// delete book
 router.delete(
   '/',
   [validate(idBodySchema), requiredRole([ROLES.admin])],

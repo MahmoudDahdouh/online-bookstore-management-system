@@ -6,6 +6,7 @@ import { ConflictError } from '../utils/error/ConflictError'
 import { generateToken } from '../utils/jwt'
 import StatusResponse from '../utils/StatusResponse'
 import { Op } from 'sequelize'
+import { ROLES } from '../utils/roles'
 
 /**
  * login
@@ -20,6 +21,51 @@ export async function login(req: Request, res: Response) {
   const user = await User.findOne({
     where: {
       email,
+    },
+  })
+
+  if (!user) {
+    throw new BadRequestError('Email or password is incorrect')
+  }
+
+  // check if the password is correct
+  const isPasswordMatch = await bcrypt.compare(password, user.password_hash)
+
+  if (!isPasswordMatch) {
+    throw new BadRequestError('Email or password is incorrect')
+  }
+
+  // generate new token
+  const token = generateToken(
+    { id: user.id, role: user.user_role },
+    {
+      expiresIn: '30d',
+    }
+  )
+
+  // return the user data without the password
+  const { password_hash, ...restUserData } = user.dataValues
+  return res.json({
+    ...StatusResponse(),
+    restUserData,
+    access_token: token,
+  })
+}
+
+/**
+ * admin login
+ * login using email and password
+ * POST
+ * /auth/login/admin
+ */
+export async function adminLogin(req: Request, res: Response) {
+  const { email, password } = req.body
+
+  // check if the email is exist in the database
+  const user = await User.findOne({
+    where: {
+      email,
+      user_role: ROLES.admin,
     },
   })
 
