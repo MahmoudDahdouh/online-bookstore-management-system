@@ -10,6 +10,16 @@ export const idParamSchema = Yup.object({
   }),
 })
 
+export const idBodySchema = Yup.object({
+  body: Yup.object({
+    id: Yup.number()
+      .label('id')
+      .positive()
+      .typeError('id must be a number.')
+      .required(),
+  }),
+})
+
 export const paginationSchema = Yup.object({
   query: Yup.object({
     page: Yup.number()
