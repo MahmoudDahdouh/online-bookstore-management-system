@@ -2,6 +2,7 @@ import { Request, Response } from 'express'
 import Book from '../db/models/Book'
 import { NotFoundError } from '../utils/error/NotFoundError'
 import StatusResponse from '../utils/StatusResponse'
+import { ConflictError } from '../utils/error/ConflictError'
 
 /**
  * create a new book
@@ -24,19 +25,26 @@ export async function createBook(req: Request, res: Response) {
     published_date,
   } = req.body
 
-  const book = await Book.create({
-    title,
-    description,
-    author,
-    genre,
-    language,
-    isbn,
-    price,
-    page_count,
-    published_date,
+  const [book, isCreated] = await Book.findOrCreate({
+    where: { isbn },
+    defaults: {
+      title,
+      description,
+      author,
+      genre,
+      language,
+      isbn,
+      price,
+      page_count,
+      published_date,
+    },
   })
+  if (!isCreated) {
+    console.log({ book })
+    throw new ConflictError('Book is already exist')
+  }
 
-  res.send({ ...StatusResponse(201), book })
+  res.send({ ...StatusResponse(201, 'new book created'), book })
 }
 
 /**
@@ -82,7 +90,7 @@ export async function getBookById(req: Request, res: Response) {
   if (!book) {
     throw new NotFoundError('Book is not found')
   }
-  res.json({ ...StatusResponse, book })
+  res.json({ ...StatusResponse(), book })
 }
 
 /**
