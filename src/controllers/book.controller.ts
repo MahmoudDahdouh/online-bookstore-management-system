@@ -126,6 +126,27 @@ export async function updateBook(req: Request, res: Response) {
 
   res.json({ ...StatusResponse(), book })
 }
+
+/**
+ * delete book
+ * DELETE
+ * /book
+ * @body book_id
+ */
 export async function deleteBook(req: Request, res: Response) {
-  res.send(`delete book number ${req.body.book_id}`)
+  const book_id = req.body.book_id
+  const book = await Book.findOne({ where: { id: book_id } })
+  if (!book || book.is_deleted === true) {
+    throw new NotFoundError('Book is not found')
+  }
+
+  // soft delete the book
+  await book.update(
+    { is_deleted: true },
+    {
+      where: book_id,
+    }
+  )
+
+  res.json({ ...StatusResponse(200, 'book deleted'), book })
 }
