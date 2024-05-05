@@ -11,12 +11,12 @@ export default function (
   console.log(error)
 
   if (error instanceof CustomError) {
-    res
+    return res
       .status(error.statusCode)
       .json({ ...StatusResponse(error.statusCode, error.message, false) })
   }
   // Unexpected error
-  res.status(500).json({
+  return res.status(500).json({
     ...StatusResponse(500, 'Internal server error', false),
   })
 }
