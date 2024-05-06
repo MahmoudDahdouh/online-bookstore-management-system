@@ -1,11 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Book store</title>
-  </head>
-  <body>
-    <h1>hello world</h1>
-  </body>
+
+<%- include('../layout/head'); %>
+
+<body>
+  <!--Nvabar-->
+  <%- include('../layout/navbar')%>
+
+  <!-- Main -->
+  <main class="mt-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 order-2 order-md-0 col-12 d-flex flex-column justify-content-center align-items-start">
+          <div>
+            <h1 class="display-1">Discover the book treasure</h1>
+            <a class="btn btn-primary btn-lg" href="/home">Explore Now</a>
+          </div>
+        </div>
+        <div class="col-md-6 col-12">
+          <img src="/imgs/book-shelf.png" alt="" class="img-fluid" />
+        </div>
+      </div>
+    </div>
+  </main>
+  <!-- footer -->
+  <footer><%- include('../layout/footer'); %></footer>
+  <!-- Bootstrap JS files -->
+  <script src="js/bootstrap.js"></script>
+  <script src="js/main.js"></script>
+</body>
+
 </html>
