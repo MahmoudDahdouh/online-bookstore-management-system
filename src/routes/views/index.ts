@@ -22,8 +22,14 @@ router.get('/home', (req, res) => {
   res.render('pages/home', { title: 'home' })
 })
 
-//profile
+// profile
 router.get('/profile', (req, res) => {
   res.render('pages/profile', { title: 'profile' })
 })
+
+// edit profile
+router.get('/profile/edit', (req, res) => {
+  res.render('pages/profile_edit', { title: 'edit profile' })
+})
+
 export default router
