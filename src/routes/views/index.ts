@@ -1,20 +1,14 @@
 import { Router } from 'express'
+import authRouter from './auth'
 
 const router = Router()
+
+// auth router
+router.use('/', authRouter)
 
 // index page
 router.get('/', (req, res) => {
   res.render('pages/index', { title: 'index' })
-})
-
-// login page
-router.get('/login', (req, res) => {
-  res.render('pages/login', { title: 'login' })
-})
-
-// register page
-router.get('/register', (req, res) => {
-  res.render('pages/register', { title: 'register' })
 })
 
 // home page
