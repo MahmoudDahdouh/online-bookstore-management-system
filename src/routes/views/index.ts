@@ -32,4 +32,8 @@ router.get('/profile/edit', (req, res) => {
   res.render('pages/profile_edit', { title: 'edit profile' })
 })
 
+// orders
+router.get('/profile/orders', (req, res) => {
+  res.render('pages/orders', { title: 'orders' })
+})
 export default router

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('../partials/head') %>
+
+  <body>
+    <%- include('../partials/navbar') %>
+    <div class="container">
+      <h1 class="display-4 mt-5">My orders</h1>
+      <table class="table table-striped table-hover mt-2">
+        <thead class="table-dark">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Description</th>
+            <th scope="col">Price</th>
+            <th scope="col">Quantity</th>
+          </tr>
+        </thead>
+        <tr>
+          <th scope="row">1</th>
+          <td>Mark</td>
+          <td>description asdasd asdasd asd asd asd sda</td>
+          <td>25$</td>
+          <td>1</td>
+        </tr>
+        <tr>
+          <th scope="row">1</th>
+          <td>Mark</td>
+          <td>description asdasd asdasd asd asd asd sda</td>
+          <td>25$</td>
+          <td>1</td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- footer -->
+    <%- include('../partials/footer'); %>
+    <!-- Bootstrap JS files -->
+    <script src="js/bootstrap.js"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>
