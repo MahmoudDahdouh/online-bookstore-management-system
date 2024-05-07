@@ -30,8 +30,26 @@ router
   })
 
 // register page
-router.get('/register', (req, res) => {
-  res.render('pages/register', { title: 'register', error: req.query.error })
-})
+router
+  .get('/register', (req, res) => {
+    res.render('pages/register', { title: 'register', error: req.query.error })
+  })
+  .post('/register', async (req, res) => {
+    const { email, password, username } = req.body
+
+    const user = await fetch('http://localhost:3000/api/v1.0/auth/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, password, username }),
+    })
+
+    const data = await user.json()
+    if (data.success) {
+      return res.redirect('/home')
+    }
+    return res.redirect(`/register?error=${data.message}`)
+  })
 
 export default router
