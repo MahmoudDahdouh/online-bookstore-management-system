@@ -1,10 +1,14 @@
 import { Router } from 'express'
-import authRouter from './auth'
+import authRouter from './auth.router'
+import profileRouter from './profile.router'
 
 const router = Router()
 
 // auth router
 router.use('/', authRouter)
+
+// profile router
+router.use('/profile', profileRouter)
 
 // index page
 router.get('/', (req, res) => {
@@ -16,18 +20,4 @@ router.get('/home', (req, res) => {
   res.render('pages/home', { title: 'home' })
 })
 
-// profile
-router.get('/profile', (req, res) => {
-  res.render('pages/profile', { title: 'profile' })
-})
-
-// edit profile
-router.get('/profile/edit', (req, res) => {
-  res.render('pages/profile_edit', { title: 'edit profile' })
-})
-
-// orders
-router.get('/profile/orders', (req, res) => {
-  res.render('pages/orders', { title: 'orders' })
-})
 export default router
