@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('../partials/head') %>
+  <body>
+    <!--Nvabar-->
+    <%- include('../partials/navbar')%>
+
+    <!-- Main -->
+    <div class="container">
+      <h2 class="display-4">Latest books</h2>
+    </div>
+    <main class="mt-5">
+      <div class="container">
+        <div class="row">
+          <!-- side filter -->
+          <aside class="side-filter col-12 col-md-3">
+            <!-- search -->
+            <form class="d-flex" role="search">
+              <input
+                class="form-control me-2"
+                type="search"
+                placeholder="Search"
+                aria-label="Search"
+              />
+              <button class="btn btn-outline-success" type="submit">
+                Search
+              </button>
+            </form>
+            <!-- sort -->
+            <div class="card mt-3">
+              <div class="card-header">Sort</div>
+              <div class="card-body">
+                <h5 class="card-title">Sort by</h5>
+
+                <div class="form-check form-check-inline">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="sort"
+                    id="date"
+                  />
+                  <label class="form-check-label" for="date"> Date </label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="sort"
+                    id="price"
+                  />
+                  <label class="form-check-label" for="price"> Price </label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="sort"
+                    id="title"
+                  />
+                  <label class="form-check-label" for="title"> Title </label>
+                </div>
+                <h5 class="card-title mt-3">Order by</h5>
+                <div class="form-check form-check-inline">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="order"
+                    id="desc"
+                  />
+                  <label class="form-check-label" for="desc">
+                    Descending
+                  </label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="order"
+                    id="asc"
+                  />
+                  <label class="form-check-label" for="asc"> Ascending </label>
+                </div>
+              </div>
+            </div>
+
+            <!-- filter -->
+            <div class="card mt-3">
+              <div class="card-header">Filter</div>
+              <div class="card-body">
+                <h5 class="card-title">Language</h5>
+                <div class="form-check form-check-inline">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    value="arabic"
+                    id="arabic"
+                  />
+                  <label class="form-check-label" for="arabic"> Arabic </label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    value="english"
+                    id="english"
+                  />
+                  <label class="form-check-label" for="english">
+                    English
+                  </label>
+                </div>
+              </div>
+            </div>
+          </aside>
+          <!-- latest book -->
+          <section class="latest-books col-12 mt-md-0 mt-4 col-md-9">
+            <div class="row gy-4 books-list">
+              <article class="book-item col-12 col-md-6 col-lg-4">
+                <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title">Book</h5>
+                    <p class="card-text">
+                      Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                      Nam praesentium sint minima. Aut, corrupti dolorem.
+                    </p>
+                    <button type="button" class="btn btn-primary">
+                      <i class="fa-solid fa-cart-shopping"></i>
+                      add to cart
+                    </button>
+                  </div>
+                </div>
+              </article>
+              <article class="book-item col-12 col-md-6 col-lg-4">
+                <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title">Book</h5>
+                    <p class="card-text">
+                      Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                      Nam praesentium sint minima. Aut, corrupti dolorem.
+                    </p>
+                    <button type="button" class="btn btn-primary">
+                      <i class="fa-solid fa-cart-shopping"></i>
+                      add to cart
+                    </button>
+                  </div>
+                </div>
+              </article>
+              <article class="book-item col-12 col-md-6 col-lg-4">
+                <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title">Book</h5>
+                    <p class="card-text">
+                      Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                      Nam praesentium sint minima. Aut, corrupti dolorem.
+                    </p>
+                    <button type="button" class="btn btn-primary">
+                      <i class="fa-solid fa-cart-shopping"></i>
+                      add to cart
+                    </button>
+                  </div>
+                </div>
+              </article>
+              <article class="book-item col-12 col-md-6 col-lg-4">
+                <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title">Book</h5>
+                    <p class="card-text">
+                      Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                      Nam praesentium sint minima. Aut, corrupti dolorem.
+                    </p>
+                    <button type="button" class="btn btn-primary">
+                      <i class="fa-solid fa-cart-shopping"></i>
+                      add to cart
+                    </button>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </section>
+        </div>
+      </div>
+    </main>
+    <!-- footer -->
+    <%- include('../partials/footer'); %>
+    <!-- Bootstrap JS files -->
+    <script src="js/bootstrap.js"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>
