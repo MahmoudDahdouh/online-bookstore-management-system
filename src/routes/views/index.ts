@@ -21,4 +21,9 @@ router.get('/register', (req, res) => {
 router.get('/home', (req, res) => {
   res.render('pages/home', { title: 'home' })
 })
+
+//profile
+router.get('/profile', (req, res) => {
+  res.render('pages/profile', { title: 'profile' })
+})
 export default router
