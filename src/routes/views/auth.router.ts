@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import { isValidToken } from '../../utils/jwt'
+import axios from '../../config/axios'
 
 const router = Router()
 
@@ -21,23 +22,20 @@ router.get('/login', (req, res) => {
 router.post('/login', async (req, res) => {
   const { email, password } = req.body
 
-  const user = await fetch('http://localhost:3000/api/v1.0/auth/login', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ email, password }),
-  })
-
-  const data = await user.json()
-  if (data.success) {
-    // create a session
-    console.log({ data })
-
-    req.session.user = { ...data.user, token: data.access_token }
-    return res.redirect('/home')
-  }
-  return res.redirect(`/login?error=${data.message}`)
+  await axios
+    .post('/auth/login', { email, password })
+    .then((response) => {
+      const user = response.data
+      if (user.success) {
+        // create a session
+        req.session.user = { ...user.user, token: user.access_token }
+        return res.redirect('/home')
+      }
+    })
+    .catch((error) => {
+      const { data } = error.response
+      return res.redirect(`/login?error=${data.message}`)
+    })
 })
 
 /**
@@ -57,23 +55,20 @@ router.get('/register', (req, res) => {
 // register
 router.post('/register', async (req, res) => {
   const { email, password, username } = req.body
-
-  const user = await fetch('http://localhost:3000/api/v1.0/auth/register', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ email, password, username }),
-  })
-
-  const data = await user.json()
-  if (data.success) {
-    console.log({ data })
-
-    req.session.user = { ...data.user, token: data.token }
-    return res.redirect('/home')
-  }
-  return res.redirect(`/register?error=${data.message}`)
+  await axios
+    .post('/auth/register', { email, password, username })
+    .then((response) => {
+      const user = response.data
+      if (user.success) {
+        // create a session
+        req.session.user = { ...user.user, token: user.access_token }
+        return res.redirect('/home')
+      }
+    })
+    .catch((error) => {
+      const { data } = error.response
+      return res.redirect(`/register?error=${data.message}`)
+    })
 })
 
 /**

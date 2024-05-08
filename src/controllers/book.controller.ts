@@ -41,7 +41,6 @@ export async function createBook(req: Request, res: Response) {
     },
   })
   if (!isCreated) {
-    console.log({ book })
     throw new ConflictError('Book is already exist, try new ISBN number')
   }
 
