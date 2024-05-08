@@ -3,6 +3,7 @@ import { Request, Response, Router } from 'express'
 import authRouter from './auth.router'
 import profileRouter from './profile.router'
 import asyncify from 'express-asyncify'
+import axios from '../../config/axios'
 
 const router = Router()
 
@@ -18,8 +19,27 @@ router.get('/', (req, res) => {
 })
 
 // home page
-router.get('/home', [authPage], (req: Request, res: Response) => {
-  return res.render('pages/home', { title: 'home', user: req.session.user })
+router.get('/home', [authPage], async (req: Request, res: Response) => {
+  await axios
+    .get('/book', {
+      headers: { Authorization: `Bearer ${req.session.user.token}` },
+    })
+    .then((response) => {
+      console.log({ books: response.data.books })
+      res.render('pages/home', {
+        title: 'home',
+        user: req.session.user,
+        books: response.data.books,
+      })
+    })
+    .catch((error) => {
+      const { data } = error.response
+      return res.render('pages/home', {
+        title: 'home',
+        user: req.session.user,
+        error: data.message,
+      })
+    })
 })
 
 export default router
