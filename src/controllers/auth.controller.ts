@@ -47,7 +47,7 @@ export async function login(req: Request, res: Response) {
   const { password_hash, ...restUserData } = user.dataValues
   return res.json({
     ...StatusResponse(),
-    restUserData,
+    user: restUserData,
     access_token: token,
   })
 }
@@ -92,7 +92,7 @@ export async function adminLogin(req: Request, res: Response) {
   const { password_hash, ...restUserData } = user.dataValues
   return res.json({
     ...StatusResponse(),
-    restUserData,
+    user: restUserData,
     access_token: token,
   })
 }
