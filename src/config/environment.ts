@@ -1,10 +1,12 @@
 import dotenv from 'dotenv'
+import session from 'express-session'
 dotenv.config()
 
 const requiredEnvVars = [
   // Server
   'PORT',
   'NODE_ENV',
+  'SESSION_SECRET_KEY',
   // API
   'API_VERSION',
   // JWT
@@ -32,6 +34,7 @@ const Config = {
   server: {
     port: process.env.PORT,
     env: process.env.NODE_ENV,
+    session_secret_key: process.env.SESSION_SECRET_KEY || '',
   },
   database: {
     dev: {

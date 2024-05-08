@@ -7,13 +7,26 @@ import Config from './config/environment'
 import apiRouter from './routes/api'
 import viewsRouter from './routes/views'
 import addCustomHeader from './middlewares/custom-headers'
-import sequelize, { syncDatabase } from './db/config/connect'
+import { syncDatabase } from './db/config/connect'
+import session from 'express-session'
 
 const app = express()
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+// use static files
+app.use(express.static(__dirname + '/public'))
+
 // set custom header
 app.use(addCustomHeader)
+
+// Set up session middleware
+app.use(
+  session({
+    secret: Config.server.session_secret_key,
+    resave: false,
+    saveUninitialized: false,
+  })
+)
 
 // sync Database
 syncDatabase({})
