@@ -1,4 +1,5 @@
-import { Router } from 'express'
+import { authPage } from './../../middlewares/auth.middleware'
+import { Request, Response, Router } from 'express'
 import authRouter from './auth.router'
 import profileRouter from './profile.router'
 import asyncify from 'express-asyncify'
@@ -9,16 +10,16 @@ const router = Router()
 router.use('/', asyncify(authRouter))
 
 // profile router
-router.use('/profile', profileRouter)
+router.use('/profile', [authPage], asyncify(profileRouter))
 
 // index page
 router.get('/', (req, res) => {
-  res.render('pages/index', { title: 'index' })
+  res.render('pages/index', { title: 'index', user: req.session.user })
 })
 
 // home page
-router.get('/home', (req, res) => {
-  res.render('pages/home', { title: 'home' })
+router.get('/home', [authPage], (req: Request, res: Response) => {
+  return res.render('pages/home', { title: 'home', user: req.session.user })
 })
 
 export default router

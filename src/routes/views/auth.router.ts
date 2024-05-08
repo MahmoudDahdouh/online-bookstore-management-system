@@ -76,4 +76,16 @@ router.post('/register', async (req, res) => {
   return res.redirect(`/register?error=${data.message}`)
 })
 
+/**
+ * Logout
+ */
+router.get('/logout', (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      return res.redirect('/home')
+    }
+    return res.redirect('/')
+  })
+})
+
 export default router
