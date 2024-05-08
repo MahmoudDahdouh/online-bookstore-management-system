@@ -13,3 +13,12 @@ export function verifyToken(accessToken: string) {
     throw new UnauthorizedError('Expired token')
   }
 }
+
+export function isValidToken(accessToken: string) {
+  try {
+    jwt.verify(accessToken, Config.jwt.access_secret_key)
+    return true
+  } catch (error) {
+    return false
+  }
+}
