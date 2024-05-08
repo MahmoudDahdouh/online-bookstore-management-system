@@ -10,7 +10,7 @@ const router = Router()
 router.get('/login', (req, res) => {
   // check if there is a user in the session
   if (req.session.user && isValidToken(req.session.user.token)) {
-    return res.redirect('/home')
+    return res.redirect('/books')
   }
   return res.render('pages/login', {
     title: 'login',
@@ -29,7 +29,7 @@ router.post('/login', async (req, res) => {
       if (user.success) {
         // create a session
         req.session.user = { ...user.user, token: user.access_token }
-        return res.redirect('/home')
+        return res.redirect('/books')
       }
     })
     .catch((error) => {
@@ -44,7 +44,7 @@ router.post('/login', async (req, res) => {
 router.get('/register', (req, res) => {
   // check if there is a user in the session
   if (req.session.user && isValidToken(req.session.user.token)) {
-    return res.redirect('/home')
+    return res.redirect('/books')
   }
   return res.render('pages/register', {
     title: 'register',
@@ -62,7 +62,7 @@ router.post('/register', async (req, res) => {
       if (user.success) {
         // create a session
         req.session.user = { ...user.user, token: user.access_token }
-        return res.redirect('/home')
+        return res.redirect('/books')
       }
     })
     .catch((error) => {
@@ -77,7 +77,7 @@ router.post('/register', async (req, res) => {
 router.get('/logout', (req, res) => {
   req.session.destroy((err) => {
     if (err) {
-      return res.redirect('/home')
+      return res.redirect('/books')
     }
     return res.redirect('/')
   })

@@ -19,14 +19,14 @@ router.get('/', (req, res) => {
 })
 
 // home page
-router.get('/home', [authPage], async (req: Request, res: Response) => {
+router.get('/books', [authPage], async (req: Request, res: Response) => {
   await axios
     .get('/book', {
       headers: { Authorization: `Bearer ${req.session.user.token}` },
     })
     .then((response) => {
       console.log({ books: response.data.books })
-      res.render('pages/home', {
+      res.render('pages/books', {
         title: 'home',
         user: req.session.user,
         books: response.data.books,
@@ -34,7 +34,7 @@ router.get('/home', [authPage], async (req: Request, res: Response) => {
     })
     .catch((error) => {
       const { data } = error.response
-      return res.render('pages/home', {
+      return res.render('pages/books', {
         title: 'home',
         user: req.session.user,
         error: data.message,
