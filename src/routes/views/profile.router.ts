@@ -1,13 +1,18 @@
 import { Router } from 'express'
+import axios from '../../config/axios'
 
 const router = Router()
 
-// profile
+/**
+ * Profile
+ */
 router.get('/', (req, res) => {
   res.render('pages/profile', { title: 'profile', user: req.session.user })
 })
 
-// edit profile
+/**
+ * Edit profile
+ */
 router.get('/edit', (req, res) => {
   res.render('pages/profile_edit', {
     title: 'edit profile',
@@ -15,7 +20,9 @@ router.get('/edit', (req, res) => {
   })
 })
 
-// orders
+/**
+ * Orders
+ */
 router.get('/orders', (req, res) => {
   res.render('pages/orders', { title: 'orders', user: req.session.user })
 })

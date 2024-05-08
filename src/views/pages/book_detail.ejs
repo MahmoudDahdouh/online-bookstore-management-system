@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('../partials/head'); %>
+
+  <body>
+    <!--Nvabar-->
+    <%- include('../partials/navbar')%>
+    <main class="mt-5">
+      <div class="container">
+        <h2 class="display-4"><%= book.title %></h2>
+        <p class="text-secondary fs-4 mb-0">By: <%= book.author %></p>
+        <p class="text-secondary mb-0">
+          <span class="fw-bold">ISBN:</span> <%= book.isbn %>
+        </p>
+        <p class="text-secondary mb-0">
+          <span class="fw-bold">Published:</span> <%=
+          book.published_date.substring(0,10) %>
+        </p>
+        <p class="text-secondary mb-0">
+          <span class="fw-bold">Pages:</span> <%= book.page_count %> pages
+        </p>
+        <p class="text-secondary mb-0">
+          <span class="fw-bold">Language:</span> <%= book.language %>
+        </p>
+        <p class="text-secondary">
+          <span class="fw-bold">Price:</span> <%= book.price %> $
+        </p>
+        <div class="badge text-bg-secondary fs-5"><%= book.genre %></div>
+        <p class="text-secondary mt-1"><%= book.quantity %> left</p>
+        <h3 class="display-6 mt-5">Description</h3>
+        <div><%- book.description%></div>
+        <button type="button" class="btn btn-primary mt-5">
+          <i class="fa-solid fa-cart-shopping"></i>
+          add to cart
+        </button>
+      </div>
+    </main>
+    <!-- footer -->
+    <%- include('../partials/footer'); %>
+    <!-- Bootstrap JS files -->
+    <script src="js/bootstrap.js"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>

@@ -10,8 +10,12 @@
           <div class="col"></div>
           <div class="col-md-6 col-lg-8 col">
             <h2 class="display-4">Edit profile</h2>
+            <!-- if error is found -->
+            <% if (typeof error !== 'undefined') { %>
+            <div class="alert alert-danger" role="alert"><%= error %></div>
+            <% } %>
 
-            <form action="/" method="post">
+            <form action="/profile/edit" method="post">
               <!-- Username -->
               <label for="username" class="form-label">Username</label>
               <div class="input-group">
@@ -19,9 +23,11 @@
                 <input
                   type="text"
                   id="username"
+                  name="username"
                   class="form-control"
                   placeholder="Username"
                   aria-label="Username"
+                  value="<%= user.username %>"
                   aria-describedby="basic-addon1"
                 />
               </div>
@@ -32,8 +38,10 @@
                 <input
                   type="email"
                   required
+                  name="email"
                   class="form-control"
                   id="email"
+                  value="<%= user.email%>"
                   placeholder="name@example.com"
                 />
               </div>
@@ -43,6 +51,7 @@
                 <input
                   type="password"
                   required
+                  name="password"
                   class="form-control"
                   id="password"
                 />
