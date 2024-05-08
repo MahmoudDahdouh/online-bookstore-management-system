@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express'
 import { UnauthorizedError } from '../utils/error/UnauthorizedError'
-import { verifyToken } from '../utils/jwt'
+import { isValidToken, verifyToken } from '../utils/jwt'
 import { ForbiddenError } from '../utils/error/ForbiddenError'
 import { ROLES } from '../utils/roles'
 
@@ -29,4 +29,12 @@ export const requiredRole = (roles: string[]) => {
     }
     throw new ForbiddenError('You are not allowed')
   }
+}
+
+export const authPage = (req: Request, res: Response, next: NextFunction) => {
+  // check if there is a user in the session
+  if (!req.session.user || !isValidToken(req.session.user?.token)) {
+    return res.redirect('/login')
+  }
+  return next()
 }
