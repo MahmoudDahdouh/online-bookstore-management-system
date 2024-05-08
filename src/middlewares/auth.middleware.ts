@@ -33,8 +33,11 @@ export const requiredRole = (roles: string[]) => {
 
 export const authPage = (req: Request, res: Response, next: NextFunction) => {
   // check if there is a user in the session
-  if (!req.session.user || !isValidToken(req.session.user?.token)) {
-    return res.redirect('/login')
+  if (!req.session.user) {
+    return res.redirect('/login?error=You need to login first')
+  }
+  if (!isValidToken(req.session.user?.token)) {
+    return res.redirect('/login?error=Expired token')
   }
   return next()
 }
