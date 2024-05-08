@@ -79,6 +79,7 @@ export async function getAllBooks(req: Request, res: Response) {
     ...StatusResponse(),
     books,
     number_of_results: books.length,
+    number_of_pages: Math.ceil(count / page_size),
     number_of_books: count,
     page,
     page_size,

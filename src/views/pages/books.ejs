@@ -4,8 +4,12 @@
   <body>
     <!--Nvabar-->
     <%- include('../partials/navbar')%>
-
     <!-- Main -->
+
+    <% const setUrl = ( key, value) => { query[key] = value;
+    return`${url}?${Object.keys(query) .map((key) => `${key}=${query[key]}`)
+    .join('&')}` } %>
+
     <div class="container mt-5">
       <h2 class="display-4">Latest books</h2>
     </div>
@@ -15,14 +19,26 @@
           <!-- side filter -->
           <aside class="side-filter col-12 col-md-3">
             <!-- search -->
-            <form class="d-flex" role="search">
+            <form
+              class="d-flex"
+              id="search-form"
+              role="search"
+              action="/books"
+              method="GET"
+            >
               <input
                 class="form-control me-2"
+                id="search-input"
                 type="search"
+                name="search_query"
                 placeholder="Search"
                 aria-label="Search"
               />
-              <button class="btn btn-outline-success" type="submit">
+              <button
+                class="btn btn-outline-success"
+                type="submit"
+                id="search-btn"
+              >
                 Search
               </button>
             </form>
@@ -38,6 +54,7 @@
                     type="radio"
                     name="sort"
                     id="date"
+                    checked
                   />
                   <label class="form-check-label" for="date"> Date </label>
                 </div>
@@ -66,6 +83,7 @@
                     type="radio"
                     name="order"
                     id="desc"
+                    checked
                   />
                   <label class="form-check-label" for="desc">
                     Descending
@@ -141,7 +159,23 @@
                   </div>
                 </div>
               </article>
-              <% }) %> <% } %>
+              <% }) %>
+              <nav class="mt-4">
+                <ul class="pagination justify-content-center">
+                  <% for( let i = 1; i <= pagination.pages; i++ ) { %>
+                  <li
+                    class="page-item <%= i == pagination.current_page?'active':'' %>"
+                  >
+                    <a class="page-link" href="<%= setUrl('page',i) %>"
+                      ><%= i %></a
+                    >
+                  </li>
+
+                  <% } %>
+                </ul>
+              </nav>
+
+              <% } %>
             </div>
           </section>
         </div>

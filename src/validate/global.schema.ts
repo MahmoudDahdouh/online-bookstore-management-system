@@ -54,7 +54,16 @@ export const searchAndFilterSchema = Yup.object({
       .nullable()
       .default('')
       .optional(),
-    sort: Yup.string().default('created_at').nullable().optional(),
+    sort: Yup.string()
+      .label('sort')
+      .nullable()
+      .optional()
+      .transform((value) => {
+        if (!['created_at', 'price', 'title'].includes(value)) {
+          return 'created_at'
+        }
+        return value
+      }),
     order_by: Yup.string()
       .default('desc')
       .nullable()
