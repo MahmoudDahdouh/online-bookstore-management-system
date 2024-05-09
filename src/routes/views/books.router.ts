@@ -5,7 +5,7 @@ const router = Router()
 
 // get books list
 router.get('/', async (req: Request, res: Response) => {
-  const { page, page_size, sort, order, search_query, origna } = req.query
+  const { page, page_size, sort, order, search_query } = req.query
 
   const url = `/book?page=${page}&page_size=${page_size}&search_query=${search_query}&sort=${sort}&order_by=${order}`
 

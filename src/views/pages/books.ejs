@@ -6,9 +6,10 @@
     <%- include('../partials/navbar')%>
     <!-- Main -->
 
-    <% const setUrl = ( key, value) => { query[key] = value;
-    return`${url}?${Object.keys(query) .map((key) => `${key}=${query[key]}`)
-    .join('&')}` } %>
+    <% const setUrl = ( key, value) => { // copy the query object const
+    tempQuery = { ...query }; tempQuery[key] = value;
+    return`${url}?${Object.keys(tempQuery) .map((key) =>
+    `${key}=${tempQuery[key]}`) .join('&')}` } %>
 
     <div class="container mt-5">
       <h2 class="display-4">Latest books</h2>
@@ -29,6 +30,7 @@
               <input
                 class="form-control me-2"
                 id="search-input"
+                value="<%= query.search_query || '' %>"
                 type="search"
                 name="search_query"
                 placeholder="Search"
@@ -48,54 +50,53 @@
               <div class="card-body">
                 <h5 class="card-title">Sort by</h5>
 
+                <% let sort = query.sort || ''; if (!['created_at',
+                'price','title'].includes(sort)) { sort= 'created_at' } let
+                order = query.order ; if (!['desc', 'asc'].includes(order)) {
+                order= 'desc' } %>
+                <!-- date -->
                 <div class="form-check form-check-inline">
-                  <input
-                    class="form-check-input"
-                    type="radio"
-                    name="sort"
-                    id="date"
-                    checked
-                  />
+                  <input class="form-check-input" type="radio"
+                  value="created_at" name="sort" id="date"
+                  onclick="window.location.href = '<%=
+                  setUrl('sort','created_at') %>';" <%= sort ==
+                  'created_at'?'checked':''; %> />
                   <label class="form-check-label" for="date"> Date </label>
                 </div>
+                <!-- price -->
                 <div class="form-check form-check-inline">
-                  <input
-                    class="form-check-input"
-                    type="radio"
-                    name="sort"
-                    id="price"
-                  />
+                  <input class="form-check-input" type="radio" value="price"
+                  name="sort" id="price" onclick="window.location.href = '<%=
+                  setUrl('sort','price') %>';" <%= sort == 'price'?'checked':'';
+                  %> />
+
                   <label class="form-check-label" for="price"> Price </label>
                 </div>
+                <!-- title -->
+
                 <div class="form-check form-check-inline">
-                  <input
-                    class="form-check-input"
-                    type="radio"
-                    name="sort"
-                    id="title"
-                  />
+                  <input class="form-check-input" type="radio" name="sort"
+                  value="title" id="title" onclick="window.location.href =
+                  '<%=setUrl('sort','title') %>';" <%= sort ==
+                  'title'?'checked':''; %> />
                   <label class="form-check-label" for="title"> Title </label>
                 </div>
                 <h5 class="card-title mt-3">Order by</h5>
+
                 <div class="form-check form-check-inline">
-                  <input
-                    class="form-check-input"
-                    type="radio"
-                    name="order"
-                    id="desc"
-                    checked
-                  />
+                  <input class="form-check-input" type="radio" name="order"
+                  value="desc" id="desc" <%= order ==
+                  'desc'?'checked="true"':''; %> onclick=" window.location.href
+                  = '<%= setUrl('order','desc') %>'; " />
                   <label class="form-check-label" for="desc">
                     Descending
                   </label>
                 </div>
                 <div class="form-check form-check-inline">
-                  <input
-                    class="form-check-input"
-                    type="radio"
-                    name="order"
-                    id="asc"
-                  />
+                  <input class="form-check-input" type="radio" value="asc"
+                  name="order" <%= order == 'asc'?'checked="true"':''; %>
+                  id="asc" onclick=" window.location.href = '<%=
+                  setUrl('order','asc') %>'; " />
                   <label class="form-check-label" for="asc"> Ascending </label>
                 </div>
               </div>
@@ -112,6 +113,8 @@
                     type="checkbox"
                     value="arabic"
                     id="arabic"
+                    onclick=" window.location.href = '<%=
+                  setUrl('language','arabic') %>'; "
                   />
                   <label class="form-check-label" for="arabic"> Arabic </label>
                 </div>
@@ -146,7 +149,9 @@
                       <h5 class="card-title"><%= book.title %></h5>
                     </a>
                     <p class="text-secondary mb-0"><%= book.author %></p>
-                    <p class="card-text"><%= book.description %></p>
+                    <p class="card-text text-truncate">
+                      <%= book.description %>
+                    </p>
                     <div class="genres">
                       <div class="badge text-bg-secondary">
                         <%= book.genre %>
@@ -158,10 +163,18 @@
                         <%= book.language %>
                       </p>
                     </div>
-                    <button type="button" class="btn btn-primary mt-4">
-                      <i class="fa-solid fa-cart-shopping"></i>
-                      add to cart
-                    </button>
+                    <div
+                      class="d-flex align-items-center justify-content-between mt-4"
+                    >
+                      <button type="button" class="btn btn-primary">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        add to cart
+                      </button>
+                      <p class="text-success mb-0 fs-3">
+                        <i class="fa-solid fa-dollar-sign"></i>
+                        <%= book.price %>
+                      </p>
+                    </div>
                   </div>
                 </div>
               </article>
