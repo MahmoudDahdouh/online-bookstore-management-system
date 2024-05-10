@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import { isValidToken } from '../../utils/jwt'
 import axios from '../../config/axios'
+import { ROLES } from '../../utils/roles'
 
 const router = Router()
 
@@ -69,6 +70,20 @@ router.post('/register', async (req, res) => {
       const { data } = error.response
       return res.redirect(`/register?error=${data.message}`)
     })
+})
+
+/**
+ * Admin login
+ */
+router.get('/admin-login', (req, res) => {
+  // check if there is a user in the session
+  if (req.session.user && isValidToken(req.session.user.token)) {
+    if (req.session.user.role == ROLES.admin) return res.redirect('/admin')
+  }
+  res.render('pages/admin-login', {
+    title: 'admin login',
+    error: req.query.error,
+  })
 })
 
 /**
