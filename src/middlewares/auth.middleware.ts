@@ -41,3 +41,17 @@ export const authPage = (req: Request, res: Response, next: NextFunction) => {
   }
   return next()
 }
+
+export const adminPage = (req: Request, res: Response, next: NextFunction) => {
+  // check if there is a user in the session
+  if (!req.session.user) {
+    return res.redirect('/admin-login?error=You need to login as admin first')
+  }
+  if (!isValidToken(req.session.user?.token)) {
+    return res.redirect('/admin-login?error=Expired token')
+  }
+  if (req.session.user.role !== ROLES.admin) {
+    return res.redirect('/admin-login?error=You need to login as admin first')
+  }
+  return next()
+}
