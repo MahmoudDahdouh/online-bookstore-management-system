@@ -78,12 +78,32 @@ router.post('/register', async (req, res) => {
 router.get('/admin-login', (req, res) => {
   // check if there is a user in the session
   if (req.session.user && isValidToken(req.session.user.token)) {
-    if (req.session.user.role == ROLES.admin) return res.redirect('/admin')
+    if (req.session.user.user_role == ROLES.admin) return res.redirect('/admin')
   }
   res.render('pages/admin-login', {
     title: 'admin login',
     error: req.query.error,
   })
+})
+router.post('/admin-login', async (req, res) => {
+  const { email, password } = req.body
+
+  await axios
+    .post('/auth/login/admin', { email, password })
+    .then((response) => {
+      const user = response.data
+
+      if (user.success) {
+        // create a session
+        console.log('done lez goo')
+        req.session.user = { ...user.user, token: user.access_token }
+        return res.redirect('/admin')
+      }
+    })
+    .catch((error) => {
+      const { data } = error.response
+      return res.redirect(`/admin-login?error=${data.message}`)
+    })
 })
 
 /**

@@ -19,7 +19,7 @@ router.use('/profile', [authPage], asyncify(profileRouter))
 router.use('/books', [authPage], asyncify(bookRouter))
 
 // admin router
-router.use('/admin', [adminPage], asyncify, adminRouter)
+router.use('/admin', [adminPage], asyncify(adminRouter))
 
 // index page
 router.get('/', (req, res) => {

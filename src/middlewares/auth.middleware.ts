@@ -23,7 +23,7 @@ export const requireAuth = (
 
 export const requiredRole = (roles: string[]) => {
   return (req: Request, res: Response, next: NextFunction) => {
-    const role = req.body.user.role
+    const role = req.body.user.user_role
     if (roles.includes(role)) {
       return next()
     }
@@ -50,7 +50,7 @@ export const adminPage = (req: Request, res: Response, next: NextFunction) => {
   if (!isValidToken(req.session.user?.token)) {
     return res.redirect('/admin-login?error=Expired token')
   }
-  if (req.session.user.role !== ROLES.admin) {
+  if (req.session.user.user_role !== ROLES.admin) {
     return res.redirect('/admin-login?error=You need to login as admin first')
   }
   return next()
