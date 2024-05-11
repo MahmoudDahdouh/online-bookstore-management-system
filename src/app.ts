@@ -23,8 +23,8 @@ app.use(addCustomHeader)
 app.use(
   session({
     secret: Config.server.session_secret_key,
-    resave: false,
-    saveUninitialized: false,
+    resave: true,
+    saveUninitialized: true,
   })
 )
 
