@@ -23,7 +23,8 @@ export const requireAuth = (
 
 export const requiredRole = (roles: string[]) => {
   return (req: Request, res: Response, next: NextFunction) => {
-    const role = req.body.user.user_role
+    const role = req.body.user.role
+
     if (roles.includes(role)) {
       return next()
     }
