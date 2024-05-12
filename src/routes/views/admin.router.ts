@@ -38,4 +38,53 @@ router.get('/', async (req, res) => {
   res.render('pages/admin', { title: 'admin', user: req.session.user })
 })
 
+// add book page
+router.get('/add-book', (req, res) => {
+  res.render('pages/add-book', {
+    title: 'add book',
+    user: req.session.user,
+    error: req.query.error,
+    success: req.query.success,
+  })
+})
+router.post('/add-book', async (req, res) => {
+  const {
+    title,
+    description,
+    author,
+    genre,
+    language,
+    isbn,
+    price,
+    page_count,
+    published_date,
+  } = req.body
+  console.log({ xxBody: req.body })
+
+  await axios
+    .post(
+      '/book',
+      {
+        title,
+        description,
+        author,
+        genre,
+        language,
+        isbn,
+        price,
+        page_count,
+        published_date,
+      },
+      {
+        headers: { Authorization: `Bearer ${req.session.user.token}` },
+      }
+    )
+    .then(() => {
+      return res.redirect('/admin/add-book?success=Book added successfully')
+    })
+    .catch((error) => {
+      const { data } = error.response
+      return res.redirect(`/admin/add-book?error=${data.message}`)
+    })
+})
 export default router
