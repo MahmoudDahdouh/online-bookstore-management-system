@@ -49,7 +49,23 @@
                 <td>${book.title}</td>
                 <td>${book.description}</td>
                 <td>$${book.price}</td>
-                <td>${book.quantity}</td>
+                <td>
+                    <button
+                        class="btn btn-outline-primary btn-sm"
+                        onclick="updateQuantity('${book.id}', 'decrease',${book.quantity})"
+                    >
+                        <i class="fas fa-minus"></i>
+                    </button>   
+                    <span class="mx-2">${book.quantity}</span>
+                    <button
+                        class="btn btn-outline-primary btn-sm"
+                        onclick="updateQuantity('${book.id}', 'increase', ${book.quantity})"
+                    >
+                        <i class="fas fa-plus"></i>
+                    </button>
+                    
+                    
+                    </td>
                 <td>
                   <button
                     class="btn-delete btn btn-danger btn-sm"
@@ -71,9 +87,39 @@
             document.write(
               `<h3 class='text-end mt-4 fs-1'>Total: $ ${total}</h3>`
             )
-
             const deleteBook = (id) => {
               const newCart = localCart.filter((book) => book.id != id)
+              localStorage.setItem('cart', JSON.stringify(newCart))
+              location.reload()
+            }
+
+            const updateQuantity = (id, action, current) => {
+              console.log({ id, action, current })
+              if (current <= 1 && action == 'decrease') {
+                return
+              }
+              let newCart = [...localCart]
+
+              for (let i = 0; i < localCart.length; i++) {
+                const element = localCart[i]
+                if (element.id == id) {
+                  if (action === 'increase') {
+                    console.log('increased', element)
+                    newCart.push(element)
+                    break
+                  } else {
+                    console.log('decreased')
+                    // remove one element with id
+                    const deleteIndex = newCart.findIndex(
+                      (book) => book.id == id
+                    )
+                    if (deleteIndex > -1) {
+                      newCart.splice(deleteIndex, 1)
+                    }
+                    break
+                  }
+                }
+              }
               localStorage.setItem('cart', JSON.stringify(newCart))
               location.reload()
             }
