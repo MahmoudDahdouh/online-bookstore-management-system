@@ -63,26 +63,3 @@ router.get('/:id', async (req: Request, res: Response) => {
 })
 
 export default router
-
-/**
-
-1 take the current page url
-example /books?page_size=12
-
-2 put the page number if exist
-query :{ page: 1, page_size:12 }
-
-3 make the link
-
-book - base url
-
-loop the query list
-
-const test = (page)=>{
-  const base = "book?"
-  query.map(i=>{
-    i
-  })
-}
-
- */

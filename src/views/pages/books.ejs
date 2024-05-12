@@ -4,8 +4,8 @@
   <body>
     <!--Nvabar-->
     <%- include('../partials/navbar')%>
-    <!-- Main -->
 
+    <!-- Main -->
     <% const setUrl = ( key, value) => { // copy the query object const
     tempQuery = { ...query }; tempQuery[key] = value;
     return`${url}?${Object.keys(tempQuery) .map((key) =>
@@ -102,7 +102,7 @@
               </div>
             </div>
 
-            <!-- filter -->
+            <!-- filter 
             <div class="card mt-3">
               <div class="card-header">Filter</div>
               <div class="card-body">
@@ -131,7 +131,7 @@
                 </div>
               </div>
             </div>
-          </aside>
+          --></aside>
           <!-- latest book -->
           <section class="latest-books col-12 mt-md-0 mt-4 col-md-9">
             <!-- list of books -->
@@ -139,7 +139,7 @@
               <% if (typeof books == 'undefined' || books.length == 0) { %>
               <h3 class="text-center">There is no books</h3>
               <% }else{ %> <% books.forEach(book => { %>
-              <article class="book-item col-12 col-md-6 col-lg-4">
+              <article class="book-item col-12 col-md-6 col-xl-4">
                 <div class="card">
                   <div class="card-body">
                     <a
@@ -166,11 +166,15 @@
                     <div
                       class="d-flex align-items-center justify-content-between mt-4"
                     >
-                      <button type="button" class="btn btn-primary">
+                      <button
+                        type="button"
+                        class="btn btn-primary"
+                        onclick="addToCart('<%=JSON.stringify(book)%>')"
+                      >
                         <i class="fa-solid fa-cart-shopping"></i>
                         add to cart
                       </button>
-                      <p class="text-success mb-0 fs-3">
+                      <p class="text-success mb-0 fs-4">
                         <i class="fa-solid fa-dollar-sign"></i>
                         <%= book.price %>
                       </p>
@@ -205,5 +209,14 @@
     <!-- Bootstrap JS files -->
     <script src="js/bootstrap.js"></script>
     <script src="js/main.js"></script>
+
+    <script>
+      const addToCart = (book) => {
+        const cart = JSON.parse(localStorage.getItem('cart')) || []
+        cart.push(JSON.parse(book))
+        localStorage.setItem('cart', JSON.stringify(cart))
+        alert('Book added to cart')
+      }
+    </script>
   </body>
 </html>
