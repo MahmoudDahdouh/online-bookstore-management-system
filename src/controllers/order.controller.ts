@@ -14,7 +14,7 @@ export async function checkout(req: Request, res: Response) {
   const { orders } = req.body
   // calculate total
   const total = orders.reduce((acc: any, arr: any) => {
-    return acc + arr.price * arr.quantity
+    return acc + arr.price
   }, 0)
 
   try {
