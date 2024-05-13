@@ -17,13 +17,13 @@ export const requireAuth = (
 
   const accessToken = authorization.split(' ')[1]
   const payload = verifyToken(accessToken)
-  req.body.user = payload
+  req.user = payload
   next()
 }
 
 export const requiredRole = (roles: string[]) => {
   return (req: Request, res: Response, next: NextFunction) => {
-    const role = req.body.user.role
+    const role = req.user.role
 
     if (roles.includes(role)) {
       return next()
