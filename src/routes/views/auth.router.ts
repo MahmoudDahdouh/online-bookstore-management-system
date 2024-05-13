@@ -2,8 +2,9 @@ import { Router } from 'express'
 import { isValidToken } from '../../utils/jwt'
 import axios from '../../config/axios'
 import { ROLES } from '../../utils/roles'
+import asyncify from 'express-asyncify'
 
-const router = Router()
+const router = asyncify(Router())
 
 /**
  * Login page
@@ -114,8 +115,8 @@ router.get('/logout', (req, res) => {
     if (err) {
       return res.redirect('/books')
     }
-    return res.redirect('/')
   })
+  return res.redirect('/')
 })
 
 export default router

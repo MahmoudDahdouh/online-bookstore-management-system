@@ -1,6 +1,8 @@
 import { Request, Response } from 'express'
 import Order from '../db/models/Order'
 import OrderItem from '../db/models/OrderItem'
+import database from '../db/config/connect'
+import StatusResponse from '../utils/StatusResponse'
 
 /**
  * checkout
@@ -14,59 +16,28 @@ export async function checkout(req: Request, res: Response) {
     return acc + arr.price * arr.quantity
   }, 0)
 
-  const order = await Order.create({ total, user_id: 1 })
-
-  //   save order items
-  await OrderItem.bulkCreate(
-    orders.map((item: any) => ({
-      ...item,
-      order_id: order.id,
-      user_id: 1,
-    }))
-  )
-
-  res.json(orders)
+  try {
+    //  add transaction
+    await database.transaction(async (t) => {
+      // save order
+      const order = await Order.create(
+        { total, user_id: req.user.id },
+        { transaction: t }
+      )
+      // save order items
+      await OrderItem.bulkCreate(
+        orders.map((item: any) => ({
+          ...item,
+          order_id: order.id,
+          user_id: req.user.id,
+        })),
+        { transaction: t }
+      )
+    })
+    res.status(201).json({
+      ...StatusResponse(201, 'Your order has been successfully placed.'),
+    })
+  } catch (error) {
+    throw error
+  }
 }
-/**
-{
-    "items": [
-        {
-            "book_id": 13,
-            "price": 817,
-            "quantity": 3
-        },
-        {
-            "book_id": 12,
-            "price": 831,
-            "quantity": 2
-        }
-    ]
-}
- */
-
-/*
-{
-    "cart": [
-        {
-            "id": 13,
-            "price": 817,
-            "quantity": 4,
-        },
-        {
-            "id": 12,
-            "price": 831,
-            "quantity": 2,
-        },
-        {
-            "id": 11,
-            "price": 858,
-            "quantity": 1,
-        },
-        {
-            "id": 9,
-            "price": 9,
-            "quantity": 12,
-        }
-    ]
-}
-*/
