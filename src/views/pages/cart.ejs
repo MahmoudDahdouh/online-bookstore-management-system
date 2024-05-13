@@ -87,49 +87,13 @@
             document.write(
               `<h3 class='text-end mt-4 fs-1'>Total: $ ${total}</h3>`
             )
-            const deleteBook = (id) => {
-              const newCart = localCart.filter((book) => book.id != id)
-              localStorage.setItem('cart', JSON.stringify(newCart))
-              location.reload()
-            }
-
-            const updateQuantity = (id, action, current) => {
-              console.log({ id, action, current })
-              if (current <= 1 && action == 'decrease') {
-                return
-              }
-              let newCart = [...localCart]
-
-              for (let i = 0; i < localCart.length; i++) {
-                const element = localCart[i]
-                if (element.id == id) {
-                  if (action === 'increase') {
-                    console.log('increased', element)
-                    newCart.push(element)
-                    break
-                  } else {
-                    console.log('decreased')
-                    // remove one element with id
-                    const deleteIndex = newCart.findIndex(
-                      (book) => book.id == id
-                    )
-                    if (deleteIndex > -1) {
-                      newCart.splice(deleteIndex, 1)
-                    }
-                    break
-                  }
-                }
-              }
-              localStorage.setItem('cart', JSON.stringify(newCart))
-              location.reload()
-            }
           </script>
         </div>
         <div class="d-flex justify-content-end">
-          <a href="/checkout" class="btn btn-primary btn-lg">
+          <button onclick="checkout()" class="btn btn-primary btn-lg">
             <i class="fas fa-shopping-cart me-2"></i>
             Checkout
-          </a>
+          </button>
         </div>
       </div>
     </main>
@@ -138,5 +102,72 @@
     <!-- Bootstrap JS files -->
     <script src="js/bootstrap.js"></script>
     <script src="js/main.js"></script>
+
+    <script>
+      // delete book from cart
+      const deleteBook = (id) => {
+        const newCart = localCart.filter((book) => book.id != id)
+        localStorage.setItem('cart', JSON.stringify(newCart))
+        location.reload()
+      }
+
+      // update book quantity
+      const updateQuantity = (id, action, current) => {
+        console.log({ id, action, current })
+        if (current <= 1 && action == 'decrease') {
+          return
+        }
+        let newCart = [...localCart]
+
+        for (let i = 0; i < localCart.length; i++) {
+          const element = localCart[i]
+          if (element.id == id) {
+            if (action === 'increase') {
+              console.log('increased', element)
+              newCart.push(element)
+              break
+            } else {
+              console.log('decreased')
+              // remove one element with id
+              const deleteIndex = newCart.findIndex((book) => book.id == id)
+              if (deleteIndex > -1) {
+                newCart.splice(deleteIndex, 1)
+              }
+              break
+            }
+          }
+        }
+        localStorage.setItem('cart', JSON.stringify(newCart))
+        location.reload()
+      }
+
+      // checkout
+      const checkout = async () => {
+        console.log('checkout')
+        const orders = cart.map((book) => {
+          return {
+            book_id: book.id,
+            quantity: book.quantity,
+            price: book.price * book.quantity,
+          }
+        })
+
+        console.log({ orders })
+
+        const response = await fetch('/api/v1.0/order/checkout', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + '<%= user.token %>',
+          },
+          body: JSON.stringify({ orders }),
+        })
+        if (response.ok) {
+          console.log(response)
+          localStorage.removeItem('cart')
+          location.href = '/cart/checkout'
+        }
+      }
+    </script>
   </body>
 </html>

@@ -10,4 +10,12 @@ router.get('/', async (req: Request, res: Response) => {
   })
 })
 
+// checkout
+router.get('/checkout', async (req: Request, res: Response) => {
+  res.render('pages/checkout', {
+    title: 'checkout',
+    user: req.session.user,
+  })
+})
+
 export default router
