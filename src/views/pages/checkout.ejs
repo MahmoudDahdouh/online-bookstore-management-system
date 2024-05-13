@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('../partials/head'); %>
+
+  <body>
+    <!--Nvabar-->
+    <%- include('../partials/navbar')%>
+
+    <!-- Main -->
+    <main>
+      <div class="container mt-5">
+        <div class="d-flex align-items-center gap-4">
+          <a href="/books" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left me-2"></i>
+            back
+          </a>
+          <h2 class="mb-0">Checkout</h2>
+        </div>
+        <div>
+          <!-- success icon -->
+          <div class="text-center mt-5">
+            <i
+              class="fas fa-check-circle text-success"
+              style="font-size: 100px"
+            ></i>
+            <h3 class="mt-3">Thank you for your purchase!</h3>
+            <p class="mt-3">Your order has been successfully placed.</p>
+
+            <a href="/books" class="btn btn-primary mt-3">Continue Shopping</a>
+          </div>
+        </div>
+      </div>
+    </main>
+    <!-- footer -->
+    <%- include('../partials/footer'); %>
+    <!-- Bootstrap JS files -->
+    <script src="js/bootstrap.js"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>
