@@ -6,7 +6,12 @@
     </a>
     <div class="d-flex gap-1 align-items-center">
       <% if (typeof user !== 'undefined') { %>
-      <a href="/logout" type="button" class="btn btn-outline-danger">
+      <a
+        href="/logout"
+        type="button"
+        onclick="localStorage.clear()"
+        class="btn btn-outline-danger"
+      >
         <i class="fa-solid fa-sign-out me-2"></i>
         Logout</a
       >
