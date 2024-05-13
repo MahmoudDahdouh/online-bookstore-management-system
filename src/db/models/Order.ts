@@ -1,7 +1,11 @@
 import { DataTypes, Model } from 'sequelize'
 import database from '../config/connect'
 
-export class Order extends Model {}
+export class Order extends Model {
+  declare id: number
+  declare user_id: number
+  declare total: number
+}
 
 Order.init(
   {

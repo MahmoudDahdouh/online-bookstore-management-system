@@ -1,7 +1,14 @@
 import { DataTypes, Model } from 'sequelize'
 import database from '../config/connect'
 
-export class OrderItem extends Model {}
+export class OrderItem extends Model {
+  declare id: number
+  declare order_id: number
+  declare user_id: number
+  declare book_id: number
+  declare quantity: number
+  declare price: number
+}
 
 OrderItem.init(
   {
