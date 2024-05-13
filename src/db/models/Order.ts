@@ -1,5 +1,6 @@
 import { DataTypes, Model } from 'sequelize'
 import database from '../config/connect'
+import OrderItem from './OrderItem'
 
 export class Order extends Model {
   declare id: number
@@ -23,5 +24,6 @@ Order.init(
     modelName: 'order',
   }
 )
+Order.hasMany(OrderItem, { foreignKey: 'order_id' })
 
 export default Order

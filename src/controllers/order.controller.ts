@@ -3,6 +3,7 @@ import Order from '../db/models/Order'
 import OrderItem from '../db/models/OrderItem'
 import database from '../db/config/connect'
 import StatusResponse from '../utils/StatusResponse'
+import Book from '../db/models/Book'
 
 /**
  * checkout
@@ -24,11 +25,15 @@ export async function checkout(req: Request, res: Response) {
         { total, user_id: req.user.id },
         { transaction: t }
       )
+      console.log({ order: order.dataValues, orders })
+
       // save order items
       await OrderItem.bulkCreate(
         orders.map((item: any) => ({
-          ...item,
-          order_id: order.id,
+          book_id: item.book_id,
+          quantity: item.quantity,
+          price: item.price,
+          order_id: order.dataValues.id,
           user_id: req.user.id,
         })),
         { transaction: t }
@@ -40,4 +45,22 @@ export async function checkout(req: Request, res: Response) {
   } catch (error) {
     throw error
   }
+}
+
+/**
+ * getOrders
+ * GET
+ * /orders
+ */
+export async function getUserOrders(req: Request, res: Response) {
+  const orders = await Order.findAll({
+    where: { user_id: req.user.id },
+    include: [
+      {
+        model: OrderItem,
+        include: [{ model: Book }],
+      },
+    ],
+  })
+  res.status(200).json({ ...StatusResponse(200), orders })
 }
