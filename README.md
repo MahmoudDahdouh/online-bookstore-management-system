@@ -9,6 +9,7 @@ This project is a TypeScript application featuring database models implemented u
 - [Database](#📦-database)
 - [Features](#🚀-features)
 - [Technologies](#💻-technologies)
+- [Postman Collection](#📬-postman-collection)
 - [Contributing](#🤝-contributing)
 - [License](#📄-license)
 
@@ -84,6 +85,10 @@ The application consists of 4 tables
 - 🍪 **Session Management**: Express-session
 - ✅ **Validation**: Yup
 - 🚀 **Deployment**: AWS
+
+## 📬 Postman Collection
+
+Download the Postman collection [here](https://github.com/MahmoudDahdouh/online-bookstore-management-system/blob/main/src/postman/book_store.postman_collection.json)
 
 ## 🤝 Contributing
 

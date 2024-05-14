@@ -1,0 +1,538 @@
+{
+  "info": {
+    "_postman_id": "96adcb2f-91dc-4d7d-bbf7-6e4d61434525",
+    "name": "Book store",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "11829742"
+  },
+  "item": [
+    {
+      "name": "auth",
+      "item": [
+        {
+          "name": "login",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "email",
+                  "value": "test@test.com",
+                  "type": "text"
+                },
+                {
+                  "key": "password",
+                  "value": "123123",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/auth/login",
+              "host": ["{{BASE_URL}}"],
+              "path": ["auth", "login"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "admin login",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "email",
+                  "value": "admin@admin.com",
+                  "type": "text"
+                },
+                {
+                  "key": "password",
+                  "value": "123123",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/auth/login/admin",
+              "host": ["{{BASE_URL}}"],
+              "path": ["auth", "login", "admin"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "logout",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/auth/logout",
+              "host": ["{{BASE_URL}}"],
+              "path": ["auth", "logout"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "register",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "username",
+                  "value": "admin",
+                  "type": "text"
+                },
+                {
+                  "key": "email",
+                  "value": "admin@admin.com",
+                  "type": "text"
+                },
+                {
+                  "key": "password",
+                  "value": "123123",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/auth/register",
+              "host": ["{{BASE_URL}}"],
+              "path": ["auth", "register"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "create admin",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{ADMIN_TOKEN}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "username",
+                  "value": "asd22sa",
+                  "type": "text"
+                },
+                {
+                  "key": "email",
+                  "value": "test@test.asdss",
+                  "type": "text"
+                },
+                {
+                  "key": "password",
+                  "value": "123123",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/auth/register/admin",
+              "host": ["{{BASE_URL}}"],
+              "path": ["auth", "register", "admin"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "book",
+      "item": [
+        {
+          "name": "get book by id",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{ACCESS_TOKEN}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/book/23",
+              "host": ["{{BASE_URL}}"],
+              "path": ["book", "23"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get all books",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{ACCESS_TOKEN}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/book?page=1&page_size=20&search_query=&sort=&order_by=",
+              "host": ["{{BASE_URL}}"],
+              "path": ["book"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "page_size",
+                  "value": "20"
+                },
+                {
+                  "key": "search_query",
+                  "value": ""
+                },
+                {
+                  "key": "sort",
+                  "value": ""
+                },
+                {
+                  "key": "order_by",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "create new book",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{ADMIN_TOKEN}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "title",
+                  "value": "Story of success",
+                  "type": "text"
+                },
+                {
+                  "key": "description",
+                  "value": "description test",
+                  "type": "text"
+                },
+                {
+                  "key": "author",
+                  "value": "john",
+                  "type": "text"
+                },
+                {
+                  "key": "genre",
+                  "value": "job",
+                  "type": "text"
+                },
+                {
+                  "key": "language",
+                  "value": "arabic",
+                  "type": "text"
+                },
+                {
+                  "key": "isbn",
+                  "value": "1234567890004",
+                  "type": "text"
+                },
+                {
+                  "key": "price",
+                  "value": "55",
+                  "type": "text"
+                },
+                {
+                  "key": "page_count",
+                  "value": "125",
+                  "type": "text"
+                },
+                {
+                  "key": "published_date",
+                  "value": "2022-05-04",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/book",
+              "host": ["{{BASE_URL}}"],
+              "path": ["book"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "delete book",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{ADMIN_TOKEN}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "id",
+                  "value": "12",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/book",
+              "host": ["{{BASE_URL}}"],
+              "path": ["book"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update book",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{ADMIN_TOKEN}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "title",
+                  "value": "new title",
+                  "type": "text"
+                },
+                {
+                  "key": "description",
+                  "value": "new description",
+                  "type": "text"
+                },
+                {
+                  "key": "author",
+                  "value": "new author",
+                  "type": "text"
+                },
+                {
+                  "key": "genre",
+                  "value": "new genre",
+                  "type": "text"
+                },
+                {
+                  "key": "language",
+                  "value": "new language",
+                  "type": "text"
+                },
+                {
+                  "key": "isbn",
+                  "value": "1234567890123",
+                  "type": "text"
+                },
+                {
+                  "key": "price",
+                  "value": "new price",
+                  "type": "text"
+                },
+                {
+                  "key": "page_count",
+                  "value": "15",
+                  "type": "text"
+                },
+                {
+                  "key": "published_date",
+                  "value": "2024-04-30",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/book/10",
+              "host": ["{{BASE_URL}}"],
+              "path": ["book", "10"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "order",
+      "item": [
+        {
+          "name": "checkout",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{ACCESS_TOKEN}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"orders\": [\n        {\n            \"book_id\": 13,\n            \"quantity\": 1,\n            \"price\": 817\n        },\n        {\n            \"book_id\": 12,\n            \"quantity\": 1,\n            \"price\": 831\n        },\n        {\n            \"book_id\": 9,\n            \"quantity\": 2,\n            \"price\": 18\n        }\n    ]\n}\n\n\n\n\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/order/checkout",
+              "host": ["{{BASE_URL}}"],
+              "path": ["order", "checkout"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "my orders",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{ACCESS_TOKEN}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"orders\": [\n        {\n            \"book_id\": 13,\n            \"quantity\": 1,\n            \"price\": 817\n        },\n        {\n            \"book_id\": 12,\n            \"quantity\": 1,\n            \"price\": 831\n        },\n        {\n            \"book_id\": 9,\n            \"quantity\": 2,\n            \"price\": 18\n        }\n    ]\n}\n\n\n\n\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/order",
+              "host": ["{{BASE_URL}}"],
+              "path": ["order"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "test",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}login",
+          "host": ["{{BASE_URL}}login"]
+        }
+      },
+      "response": []
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "BASE_URL",
+      "value": "http://localhost:3000/api/v1.0/",
+      "type": "string"
+    },
+    {
+      "key": "ACCESS_TOKEN",
+      "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6InVzZXIiLCJpYXQiOjE3MTQ4Mjc2NjMsImV4cCI6MTcxNzQxOTY2M30.ISH-a1RRY__IIaJSs3Au10G21Qv78bgbZXp1p0Rb-hc",
+      "type": "string"
+    },
+    {
+      "key": "ADMIN_TOKEN",
+      "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzE0ODI3NzcyLCJleHAiOjE3MTc0MTk3NzJ9.pElAByzuM0TvrHegYqOnjFG9KqrEoQzTTq2jajyCyfs",
+      "type": "string"
+    }
+  ]
+}
